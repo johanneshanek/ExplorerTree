@@ -5,6 +5,10 @@ Public Class ExplorerTree
     Public Event SelectedPathChanged(Path As String)
     Public Event DoubleClicked(FileName As String)
 
+    Public ShowFilesInTree As Boolean
+    Public ShowContextMenuStrip As Boolean
+
+
     Private Function AddImageToImgList(FullPath As String, Optional SpecialImageKeyName As String = "") As String
         Dim ImgKey As String = If(SpecialImageKeyName = "", FullPath, SpecialImageKeyName)
         Dim LoadFromExt As Boolean = False
@@ -40,17 +44,24 @@ Public Class ExplorerTree
     End Sub
 
     Private Sub AddDriveRootNodes()
-        Tv_Explorer.Nodes.Clear()
+        TreeView.Nodes.Clear()
         For Each drv As DriveInfo In DriveInfo.GetDrives
-            AddImageToImgList(drv.Name)
-            Dim DriveNode As New TreeNode(drv.Name) 'drv. & "(" & drv.Name & ")")
-            With DriveNode
-                .Tag = drv.Name
-                .ImageKey = drv.Name
-                .SelectedImageKey = drv.Name
-                .Nodes.Add("Empty")
-            End With
-            Tv_Explorer.Nodes.Add(DriveNode)
+            Dim DriveNode As TreeNode
+            If drv.IsReady Then
+                AddImageToImgList(drv.Name)
+                If drv.VolumeLabel = "" Then
+                    DriveNode = New TreeNode(drv.Name)
+                Else
+                    DriveNode = New TreeNode(drv.VolumeLabel & " (" & drv.Name & ")")
+                End If
+                With DriveNode
+                    .Tag = drv.Name
+                    .ImageKey = drv.Name
+                    .SelectedImageKey = drv.Name
+                    .Nodes.Add("Empty")
+                End With
+                TreeView.Nodes.Add(DriveNode)
+            End If
         Next
     End Sub
 
@@ -58,6 +69,7 @@ Public Class ExplorerTree
         Dim SpecialFolderPath As String = Environment.GetFolderPath(CType(SpecialFolder, Environment.SpecialFolder))
         Dim SpecialFolderName As String = Path.GetFileName(SpecialFolderPath)
         AddImageToImgList(SpecialFolderPath, SpecialFolderName)
+        If SpecialFolderName = "" Then SpecialFolderName = [Enum].GetName(GetType(SpecialNodeFolders), SpecialFolder)
         Dim DesktopNode As New TreeNode(SpecialFolderName)
         With DesktopNode
             .Tag = SpecialFolderPath
@@ -65,7 +77,7 @@ Public Class ExplorerTree
             .SelectedImageKey = SpecialFolderName
             .Nodes.Add("Empty")
         End With
-        Tv_Explorer.Nodes.Add(DesktopNode)
+        TreeView.Nodes.Add(DesktopNode)
     End Sub
 
     Private Sub AddCustomFolderRootNode(folderpath As String)
@@ -79,7 +91,7 @@ Public Class ExplorerTree
                 .SelectedImageKey = folderpath
                 If Directory.GetDirectories(folderpath).Count > 0 OrElse Directory.GetFiles(folderpath).Count > 0 Then .Nodes.Add("Empty")
             End With
-            Tv_Explorer.Nodes.Add(rootNode)
+            TreeView.Nodes.Add(rootNode)
         End If
     End Sub
 
@@ -89,25 +101,11 @@ Public Class ExplorerTree
             Dim Directories As New List(Of DirectoryInfo)
             Directories.AddRange(DirInfo.GetDirectories)
             Directories.Sort(New DirectoryInfoComparer)
-
             For Each di As DirectoryInfo In Directories
                 If Not (di.Attributes And FileAttributes.Hidden) = FileAttributes.Hidden Then
-                    Dim FolderNode As New TreeNode(di.Name)
-                    With FolderNode
-                        .Tag = di.FullName
-                        If ImageList.Images.Keys.Contains(di.FullName) Then
-                            .ImageKey = di.FullName
-                            .SelectedImageKey = di.FullName
-                        Else
-                            .ImageKey = "Folder"
-                            .SelectedImageKey = "Folder"
-                        End If
-                        .Nodes.Add("*Empty*")
-                    End With
-                    tn.Nodes.Add(FolderNode)
+                    tn.Nodes.Add(CreateTreeNode(di))
                 End If
             Next
-
             For Each fi As FileInfo In DirInfo.GetFiles
                 If Not (fi.Attributes And FileAttributes.Hidden) = FileAttributes.Hidden Then
                     Dim ImgKey As String = AddImageToImgList(fi.FullName)
@@ -120,13 +118,42 @@ Public Class ExplorerTree
                     tn.Nodes.Add(FileNode)
                 End If
             Next
-
         Catch ex As Exception
             MessageBox.Show(ex.Message, "Error...", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
-    Public Class DirectoryInfoComparer
+    Private Function CreateTreeNode(newFolder As DirectoryInfo) As TreeNode
+        Dim FolderNode As New TreeNode(newFolder.Name)
+        With FolderNode
+            .Tag = newFolder.FullName
+            If ImageList.Images.Keys.Contains(newFolder.FullName) Then
+                .ImageKey = newFolder.FullName
+                .SelectedImageKey = newFolder.FullName
+            Else
+                .ImageKey = "Folder"
+                .SelectedImageKey = "Folder"
+            End If
+            .Nodes.Add("*Empty*")
+        End With
+        Return FolderNode
+    End Function
+
+    Private Function CreateTreeNode(fi As FileInfo) As TreeNode
+        Dim FolderNode As New TreeNode(fi.Name)
+        If Not (fi.Attributes And FileAttributes.Hidden) = FileAttributes.Hidden Then
+            Dim ImgKey As String = AddImageToImgList(fi.FullName)
+            Dim FileNode As New TreeNode(fi.Name)
+            With FileNode
+                .Tag = fi.FullName
+                .ImageKey = ImgKey
+                .SelectedImageKey = ImgKey
+            End With
+        End If
+        Return FolderNode
+    End Function
+
+    Private Class DirectoryInfoComparer
         Implements IComparer(Of DirectoryInfo)
         Public Function Compare(ByVal x As DirectoryInfo, ByVal y As DirectoryInfo) As Integer _
             Implements System.Collections.Generic.IComparer(Of DirectoryInfo).Compare
@@ -146,7 +173,7 @@ Public Class ExplorerTree
         UserProfile = Environment.SpecialFolder.UserProfile
     End Enum
 
-    Private Sub TV_Explorer_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles Tv_Explorer.BeforeExpand
+    Private Sub TreeView_BeforeExpand(sender As Object, e As TreeViewCancelEventArgs) Handles TreeView.BeforeExpand
         Dim DrvIsReady As Boolean = (From d As DriveInfo In DriveInfo.GetDrives Where
            d.Name = e.Node.ImageKey Select d.IsReady).FirstOrDefault
         If (e.Node.ImageKey <> "Desktop" AndAlso Not e.Node.ImageKey.Contains(":\")) OrElse DrvIsReady OrElse Directory.Exists(e.Node.ImageKey) Then
@@ -164,45 +191,35 @@ Public Class ExplorerTree
         End If
     End Sub
 
-    Private Sub TV_Explorer_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles Tv_Explorer.AfterCollapse
+    Private Sub TreeView_AfterCollapse(sender As Object, e As TreeViewEventArgs) Handles TreeView.AfterCollapse
         e.Node.Nodes.Clear()
         e.Node.Nodes.Add("Empty")
     End Sub
 
-    Private Sub TV_Explorer_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles Tv_Explorer.AfterSelect
+    Private Sub TreeView_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles TreeView.AfterSelect
         RaiseEvent SelectedPathChanged(e.Node.Tag.ToString)
     End Sub
 
-    Private Sub TV_Explorer_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles Tv_Explorer.NodeMouseDoubleClick
-        If e.Button = MouseButtons.Left AndAlso File.Exists(e.Node.Tag.ToString) Then
-            OpenSelection(e.Node.Tag.ToString)
-        End If
-    End Sub
-
-    Private Sub OpenSelection(filename As String)
-        RaiseEvent DoubleClicked(filename)
-    End Sub
-
-    Public Sub Open()
-        OpenSelection(Tv_Explorer.SelectedNode.Tag.ToString)
+    Private Sub TV_Explorer_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView.NodeMouseDoubleClick
+        If e.Button = MouseButtons.Left Then RaiseEvent DoubleClicked(e.Node.Tag.ToString) 'AndAlso File.Exists(e.Node.Tag.ToString)
     End Sub
 
     Private Sub ExplorerTree_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim pixels As Integer = 16
         ImageList.ImageSize = New Size(pixels, pixels)
-        Tv_Explorer.ImageList = ImageList
-        Tv_Explorer.ItemHeight = pixels + 1
+        TreeView.ImageList = ImageList
+        TreeView.ItemHeight = pixels + 1
 
         AddSpecialAndStandardFolderImages()
-        AddSpecialFolderRootNode(SpecialNodeFolders.Desktop)
-        'AddSpecialFolderRootNode(SpecialNodeFolders.MyDocuments)
         AddDriveRootNodes()
+        AddSpecialFolderRootNode(SpecialNodeFolders.Desktop)
+        AddSpecialFolderRootNode(SpecialNodeFolders.MyDocuments)
     End Sub
 
     Public Sub ExpandNode(Path As String)
         Dim opendPath As String = ""
         Dim PathItems() As String = Path.Split("\")
-        Dim tvn As TreeNodeCollection = Tv_Explorer.Nodes
+        Dim tvn As TreeNodeCollection = TreeView.Nodes
         For Each item As String In PathItems
             If item <> "" Then
                 For Each n As TreeNode In tvn
@@ -228,83 +245,121 @@ Public Class ExplorerTree
     End Function
 
     Public Sub MakeNewFolder()
-        Dim selectedPath As String = Tv_Explorer.SelectedNode.Tag.ToString
-        If IO.File.Exists(selectedPath) Then
-            MsgBox("Bitte Verzeichnis auswählen")
-        ElseIf IO.Directory.Exists(selectedPath) Then
-            Dim dirname As String = InputBox("Bitte geben Sie einen Namen für den Ordner an",
-                                             "Ziel:" & selectedPath, "Neuer Ordner")
-            Dim dir As String = selectedPath & "\" & dirname
-            If Not IO.Directory.Exists(dir) Then
-                IO.Directory.CreateDirectory(dir)
-                AddChildNodes(Tv_Explorer.SelectedNode, selectedPath)
+        If TreeView.SelectedNode IsNot Nothing Then
+            Dim fi As New IO.FileInfo(TreeView.SelectedNode.Tag.ToString)
+            If fi.Exists Then
+                Dim tn As TreeNode = CreateTreeNode(Directory.CreateDirectory(fi.Directory.FullName & "\New Folder"))
+                TreeView.SelectedNode.Parent.Nodes.Add(tn)
+                TreeView.SelectedNode = tn
             Else
-                MsgBox("Der Ordner existiert bereits")
+                Dim tn As TreeNode = CreateTreeNode(Directory.CreateDirectory(fi.FullName & "\New Folder"))
+                Dim index As Integer = TreeView.SelectedNode.Nodes.Add(tn)
+                TreeView.SelectedNode = TreeView.SelectedNode.Nodes(index)
+            End If
+            TreeView.LabelEdit = True
+            TreeView.SelectedNode.BeginEdit()
+        End If
+    End Sub
+
+    Private Sub TreeView_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles TreeView.AfterLabelEdit
+        Dim DirInfo As New DirectoryInfo(e.Node.Tag)
+        Dim newFolder As String = DirInfo.Parent.FullName & "\" & e.Label
+
+        Rename(e.Node.Tag, newFolder)
+
+        e.Node.Text = e.Label
+        e.Node.Tag = newFolder
+        TreeView.LabelEdit = False
+    End Sub
+
+    Public Sub OpenSelected()
+        If TreeView.SelectedNode IsNot Nothing Then Process.Start(TreeView.SelectedNode.Tag.ToString)
+    End Sub
+
+    Public Sub RenameSelected()
+        If TreeView.SelectedNode IsNot Nothing Then
+            TreeView.LabelEdit = True
+            TreeView.SelectedNode.BeginEdit()
+        End If
+    End Sub
+
+    Public Sub CopySelectionToClipBoard()
+        If TreeView.SelectedNode IsNot Nothing Then
+            Dim selectedPath As String = TreeView.SelectedNode.Tag.ToString
+            'Nur für Dateien!!!
+            If IO.File.Exists(selectedPath) Then
+                Clipboard.SetFileDropList(New Specialized.StringCollection From {selectedPath})
             End If
         End If
     End Sub
 
-    Public Sub RenameFolder()
-        Dim selectedPath As String = Tv_Explorer.SelectedNode.Tag.ToString
-        If IO.File.Exists(selectedPath) Then
-            MsgBox("Bitte Verzeichnis auswählen")
-        ElseIf IO.Directory.Exists(selectedPath) Then
-            Dim dirname As String = InputBox("Bitte geben Sie neuen Namen für den Ordner an", "Ordner umbenennen",
-                                             IO.Path.GetFileName(selectedPath))
-            Dim dir As String = Tv_Explorer.SelectedNode.Parent.Tag.ToString & "\" & dirname
-            FileSystem.Rename(selectedPath, dir)
-            AddChildNodes(Tv_Explorer.SelectedNode, selectedPath)
-        End If
-    End Sub
-
-    Private Cut As Boolean
-
-    Public Sub CopySelectionToClipBoard()
-        Dim selectedPath As String = Tv_Explorer.SelectedNode.Tag.ToString
-        If IO.File.Exists(selectedPath) Then
-            Dim dir As String = selectedPath
-            Dim sc As New Specialized.StringCollection
-            sc.Add(dir)
-            Clipboard.SetFileDropList(sc)
-            Cut = False
-        End If
-    End Sub
-
-    Public Sub CutSelectionToClipBoard()
-        Dim selectedPath As String = Tv_Explorer.SelectedNode.Tag.ToString
-        If IO.File.Exists(selectedPath) Then
-            Dim sc As New Specialized.StringCollection
-            sc.Add(selectedPath)
-            Clipboard.SetFileDropList(sc)
-            Cut = True
-        End If
-    End Sub
-
     Public Sub PasteSelectionFromClipBoard()
-        Dim selectedPath As String = Tv_Explorer.SelectedNode.Tag.ToString
-        If IO.File.Exists(selectedPath) Then
-            MsgBox("Bitte Verzeichnis auswählen")
-        ElseIf IO.Directory.Exists(selectedPath) Then
-            Dim sc As Specialized.StringCollection
-            sc = Clipboard.GetFileDropList()
-            Dim dir As String = selectedPath
-            For Each s As String In sc
-                FileSystem.FileCopy(s, dir & "\" & IO.Path.GetFileName(s))
-                If Cut Then IO.File.Delete(s)
-            Next
-            AddChildNodes(Tv_Explorer.SelectedNode, selectedPath)
+        If TreeView.SelectedNode IsNot Nothing Then
+            Dim fi As New IO.FileInfo(TreeView.SelectedNode.Tag.ToString)
+            Dim DestinationFolder As String
+            If fi.Exists Then
+                'Es ist eine Datei markiert worden
+                DestinationFolder = fi.Directory.FullName
+                Dim sc As Specialized.StringCollection
+                sc = Clipboard.GetFileDropList()
+                For Each s As String In sc
+                    Dim destfilename As String = DestinationFolder & "\Kopie " & IO.Path.GetFileName(s)
+                    FileSystem.FileCopy(s, destfilename)
+                    TreeView.SelectedNode.Parent.Nodes.Add(CreateTreeNode(New FileInfo(destfilename)))
+                Next
+            Else
+                DestinationFolder = fi.FullName
+                Dim sc As Specialized.StringCollection
+                sc = Clipboard.GetFileDropList()
+                For Each s As String In sc
+                    Dim destfilename As String = DestinationFolder & "\Kopie " & IO.Path.GetFileName(s)
+                    FileSystem.FileCopy(s, destfilename)
+                    TreeView.SelectedNode.Nodes.Add(CreateTreeNode(New FileInfo(destfilename)))
+                Next
+            End If
         End If
     End Sub
 
     Public Sub RemoveSelection()
-        Dim selectedPath As String = Tv_Explorer.SelectedNode.Tag.ToString
-        If IO.File.Exists(selectedPath) Then
-            IO.File.Delete(selectedPath)
-            AddChildNodes(Tv_Explorer.SelectedNode, selectedPath)
-        ElseIf IO.Directory.Exists(selectedPath) Then
-            IO.Directory.Delete(selectedPath)
-            AddChildNodes(Tv_Explorer.SelectedNode, selectedPath)
+        If TreeView.SelectedNode IsNot Nothing Then
+            Dim selectedPath As String = TreeView.SelectedNode.Tag.ToString
+            Dim dinfo As New DirectoryInfo(TreeView.SelectedNode.Tag.ToString)
+            If IO.File.Exists(selectedPath) Then
+                If MsgBox("Soll " & dinfo.Name & " gelöscht werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    IO.File.Delete(selectedPath)
+                    TreeView.Nodes.Remove(TreeView.SelectedNode)
+                End If
+            ElseIf IO.Directory.Exists(selectedPath) Then
+                If MsgBox("Soll " & dinfo.FullName & " mit allen Dateien und Unterordnern gelöscht werden?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                    IO.Directory.Delete(selectedPath, True)
+                    TreeView.Nodes.Remove(TreeView.SelectedNode)
+                End If
+            End If
         End If
+    End Sub
+
+    Private Sub CopyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyToolStripMenuItem.Click
+        CopySelectionToClipBoard()
+    End Sub
+
+    Private Sub PasteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PasteToolStripMenuItem.Click
+        PasteSelectionFromClipBoard()
+    End Sub
+
+    Private Sub RenameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RenameToolStripMenuItem.Click
+        RenameSelected()
+    End Sub
+
+    Private Sub NewFolderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewFolderToolStripMenuItem.Click
+        MakeNewFolder()
+    End Sub
+
+    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
+        OpenSelected()
+    End Sub
+
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
+        RemoveSelection()
     End Sub
 
 End Class
