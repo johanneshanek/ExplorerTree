@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("ExplorerTree")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("Fraunhofer ISE")>
+<Assembly: AssemblyDescription("TreeView that looks like an Windows Explorer Treeview")>
+<Assembly: AssemblyCompany("Blaues Sofa")>
 <Assembly: AssemblyProduct("ExplorerTree")>
-<Assembly: AssemblyCopyright("Copyright © Fraunhofer ISE 2022")>
+<Assembly: AssemblyCopyright("Copyright © Johannes Hanek 2022")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>ExplorerTree</id>
+    <version>1.0.0.0</version>
+    <title>ExplorerTree</title>
+    <authors>Johannes Hanek</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <!-- <icon>icon.png</icon> -->
+    <projectUrl>https://github.com/johanneshanek/ExplorerTree</projectUrl>
+    <description>TreeViewControl of the FileSystem like in Windows Explorer based on .NET Framework 4.7.1</description>
+    <releaseNotes>First Version</releaseNotes>
+    <copyright>Johannes Hanek</copyright>
+    <tags>Explorer TreeView Control .NET</tags>
+  </metadata>
+</package>
