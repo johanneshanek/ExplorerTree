@@ -136,6 +136,8 @@ Public Class ExplorerTree
             End If
             .Nodes.Add("*Empty*")
         End With
+
+
         Return FolderNode
     End Function
 
