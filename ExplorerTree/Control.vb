@@ -2,6 +2,12 @@
 
 Public Class ExplorerTree
 
+    ' TODO:
+    ' New Files and Folder: Icons!
+    ' Paste File AND Folders
+    ' Check all
+
+
     Public Event SelectedPathChanged(Path As String)
     Public Event DoubleClicked(FileName As String)
 
@@ -136,8 +142,6 @@ Public Class ExplorerTree
             End If
             .Nodes.Add("*Empty*")
         End With
-
-
         Return FolderNode
     End Function
 
@@ -264,13 +268,15 @@ Public Class ExplorerTree
     End Sub
 
     Private Sub TreeView_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles TreeView.AfterLabelEdit
-        Dim DirInfo As New DirectoryInfo(e.Node.Tag)
-        Dim newFolder As String = DirInfo.Parent.FullName & "\" & e.Label
-
-        Rename(e.Node.Tag, newFolder)
-
-        e.Node.Text = e.Label
-        e.Node.Tag = newFolder
+        If e.Label IsNot Nothing Then
+            Dim DirInfo As New DirectoryInfo(e.Node.Tag)
+            Dim newFolder As String = DirInfo.Parent.FullName & "\" & e.Label
+            If Not e.Node.Tag = newFolder Then
+                Rename(e.Node.Tag, newFolder)
+                e.Node.Text = e.Label
+                e.Node.Tag = newFolder
+            End If
+        End If
         TreeView.LabelEdit = False
     End Sub
 
@@ -287,11 +293,16 @@ Public Class ExplorerTree
 
     Public Sub CopySelectionToClipBoard()
         If TreeView.SelectedNode IsNot Nothing Then
-            Dim selectedPath As String = TreeView.SelectedNode.Tag.ToString
-            'Nur für Dateien!!!
-            If IO.File.Exists(selectedPath) Then
-                Clipboard.SetFileDropList(New Specialized.StringCollection From {selectedPath})
-            End If
+            Clipboard.SetFileDropList(New Specialized.StringCollection From {TreeView.SelectedNode.Tag.ToString})
+            'Dim fi As New IO.FileInfo(TreeView.SelectedNode.Tag.ToString)
+            'If fi.Exists Then
+            '    Clipboard.SetFileDropList(New Specialized.StringCollection From {TreeView.SelectedNode.Tag.ToString})
+            'Else
+            '    Dim di As New DirectoryInfo(TreeView.SelectedNode.Tag.ToString)
+            '    If di.Exists Then
+            '        'Clipboard.SetFileDropList()
+            '    End If
+            'End If
         End If
     End Sub
 
@@ -320,6 +331,14 @@ Public Class ExplorerTree
                 Next
             End If
         End If
+    End Sub
+
+    Private Sub PasteFiles()
+
+    End Sub
+
+    Private Sub PasteDirectorys()
+
     End Sub
 
     Public Sub RemoveSelection()
