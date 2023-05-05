@@ -27,13 +27,13 @@ Partial Class ExplorerTree
         Me.TreeContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.OpenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PasteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.NewFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ImageList = New System.Windows.Forms.ImageList(Me.components)
+        Me.CopyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TreeContextMenuStrip.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -63,13 +63,6 @@ Partial Class ExplorerTree
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(177, 6)
         '
-        'CopyToolStripMenuItem
-        '
-        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-        Me.CopyToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.CopyToolStripMenuItem.Text = "Copy"
-        '
         'PasteToolStripMenuItem
         '
         Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
@@ -77,27 +70,14 @@ Partial Class ExplorerTree
         Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PasteToolStripMenuItem.Text = "Paste"
         '
-        'DeleteToolStripMenuItem
-        '
-        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.DeleteToolStripMenuItem.Text = "Delete"
-        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
         Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
-        'NewFolderToolStripMenuItem
-        '
-        Me.NewFolderToolStripMenuItem.Name = "NewFolderToolStripMenuItem"
-        Me.NewFolderToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
-        Me.NewFolderToolStripMenuItem.Text = "New Folder"
-        '
         'RenameToolStripMenuItem
         '
+        Me.RenameToolStripMenuItem.Image = Global.ExplorerTree.My.Resources.Resources.edit_icon_png_3596
         Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
         Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.RenameToolStripMenuItem.Text = "Rename"
@@ -107,6 +87,30 @@ Partial Class ExplorerTree
         Me.ImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit
         Me.ImageList.ImageSize = New System.Drawing.Size(16, 16)
         Me.ImageList.TransparentColor = System.Drawing.Color.Transparent
+        '
+        'CopyToolStripMenuItem
+        '
+        Me.CopyToolStripMenuItem.Image = Global.ExplorerTree.My.Resources.Resources.copy_icon_4774
+        Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
+        Me.CopyToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CopyToolStripMenuItem.Text = "Copy"
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Image = Global.ExplorerTree.My.Resources.Resources.delete_button_png_28580
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DeleteToolStripMenuItem.Text = "Delete"
+        '
+        'NewFolderToolStripMenuItem
+        '
+        Me.NewFolderToolStripMenuItem.Image = Global.ExplorerTree.My.Resources.Resources.directory_icon_png_12390
+        Me.NewFolderToolStripMenuItem.Name = "NewFolderToolStripMenuItem"
+        Me.NewFolderToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
+        Me.NewFolderToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.NewFolderToolStripMenuItem.Text = "New Folder"
         '
         'ExplorerTree
         '

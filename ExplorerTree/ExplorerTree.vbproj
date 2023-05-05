@@ -10,8 +10,9 @@
     <AssemblyName>ExplorerTree</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -117,6 +118,18 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy-icon-4774.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete-button-png-28580.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\directory-icon-png-12390.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit-icon-png-3596.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
