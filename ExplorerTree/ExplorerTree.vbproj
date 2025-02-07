@@ -131,5 +131,26 @@
   <ItemGroup>
     <None Include="Resources\edit-icon-png-3596.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1485477204-share2_78604.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\copy_icon_128895.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus_insert_add_rectangle_icon_176436.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\4115230-cancel-close-cross-delete_114048.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\-create-new-folder_90671.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rename_icon_215315.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3643772-archive-archives-document-folder-open_113445 %281%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -7,13 +7,32 @@ Public Class ExplorerTree
     ' Paste File AND Folders
     ' Check all
 
-
     Public Event SelectedPathChanged(Path As String)
     Public Event DoubleClicked(FileName As String)
 
     Public ShowFilesInTree As Boolean
     Public ShowContextMenuStrip As Boolean
 
+    Private Favorites As New List(Of String)
+
+    Private Sub ExplorerTree_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Dim pixels As Integer = 16
+        ImageList.ImageSize = New Size(pixels, pixels)
+        TreeView.ImageList = ImageList
+        TreeView.ItemHeight = pixels + 1
+
+        AddSpecialAndStandardFolderImages()
+        AddDriveRootNodes()
+        AddSpecialFolderRootNode(SpecialNodeFolders.Desktop)
+        AddSpecialFolderRootNode(SpecialNodeFolders.MyDocuments)
+    End Sub
+
+    Public Sub AddFavorites(paths() As String)
+        Favorites.AddRange(paths)
+        For Each path As String In Favorites
+            AddCustomFolderRootNode(path)
+        Next
+    End Sub
 
     Private Function AddImageToImgList(FullPath As String, Optional SpecialImageKeyName As String = "") As String
         Dim ImgKey As String = If(SpecialImageKeyName = "", FullPath, SpecialImageKeyName)
@@ -210,17 +229,10 @@ Public Class ExplorerTree
         If e.Button = MouseButtons.Left Then RaiseEvent DoubleClicked(e.Node.Tag.ToString) 'AndAlso File.Exists(e.Node.Tag.ToString)
     End Sub
 
-    Private Sub ExplorerTree_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Dim pixels As Integer = 16
-        ImageList.ImageSize = New Size(pixels, pixels)
-        TreeView.ImageList = ImageList
-        TreeView.ItemHeight = pixels + 1
-
-        AddSpecialAndStandardFolderImages()
-        AddDriveRootNodes()
-        AddSpecialFolderRootNode(SpecialNodeFolders.Desktop)
-        AddSpecialFolderRootNode(SpecialNodeFolders.MyDocuments)
+    Private Sub TreeView_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView.NodeMouseClick
+        ExpandNode(e.Node.Tag.ToString)
     End Sub
+
 
     Public Sub ExpandNode(Path As String)
         Dim opendPath As String = ""

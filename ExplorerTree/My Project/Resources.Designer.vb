@@ -63,6 +63,56 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property _1485477204_share2_78604() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("1485477204-share2_78604", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property _3643772_archive_archives_document_folder_open_113445__1_() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("3643772-archive-archives-document-folder-open_113445 (1)", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property _4115230_cancel_close_cross_delete_114048() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("4115230-cancel-close-cross-delete_114048", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property _create_new_folder_90671() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("-create-new-folder_90671", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property copy_icon_128895() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("copy_icon_128895", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property copy_icon_4774() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("copy-icon-4774", resourceCulture)
@@ -96,6 +146,26 @@ Namespace My.Resources
         Friend ReadOnly Property edit_icon_png_3596() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("edit-icon-png-3596", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property plus_insert_add_rectangle_icon_176436() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("plus_insert_add_rectangle_icon_176436", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property rename_icon_215315() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("rename_icon_215315", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
