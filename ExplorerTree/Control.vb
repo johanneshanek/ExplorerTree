@@ -27,11 +27,22 @@ Public Class ExplorerTree
         AddSpecialFolderRootNode(SpecialNodeFolders.MyDocuments)
     End Sub
 
-    Public Sub AddFavorites(paths() As String)
+    Public Sub SetFavoritePaths(paths() As String)
+        Favorites.Clear()
         Favorites.AddRange(paths)
         For Each path As String In Favorites
             AddCustomFolderRootNode(path)
         Next
+    End Sub
+
+    Public Sub AddFavoritePath(path As String)
+        Favorites.Add(path)
+        AddCustomFolderRootNode(path)
+    End Sub
+
+    Public Sub RemoveFavoritePath(path As String)
+        Favorites.Remove(path)
+        RemoveCustomFolderRootNode(path)
     End Sub
 
     Private Function AddImageToImgList(FullPath As String, Optional SpecialImageKeyName As String = "") As String
@@ -118,6 +129,25 @@ Public Class ExplorerTree
             End With
             TreeView.Nodes.Add(rootNode)
         End If
+    End Sub
+
+    Private Sub RemoveCustomFolderRootNode(folderpath As String)
+        For Each tn As TreeNode In TreeView.Nodes
+            If tn.Tag = folderpath Then
+                TreeView.Nodes.Remove(tn)
+                Exit For
+            End If
+        Next
+        'If Directory.Exists(folderpath) Then
+        '    Dim FolderName As String = New DirectoryInfo(folderpath).Name
+        '    Dim rootNode As New TreeNode(FolderName)
+        '    With rootNode
+        '        .Tag = folderpath
+        '        .ImageKey = folderpath
+        '        .SelectedImageKey = folderpath
+        '    End With
+        '    TreeView.Nodes.Remove(rootNode)
+        'End If
     End Sub
 
     Private Sub AddChildNodes(tn As TreeNode, DirPath As String)
@@ -230,7 +260,7 @@ Public Class ExplorerTree
     End Sub
 
     Private Sub TreeView_NodeMouseClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView.NodeMouseClick
-        ExpandNode(e.Node.Tag.ToString)
+        'ExpandNode(e.Node.NextNode.Tag.ToString)
     End Sub
 
 
