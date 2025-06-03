@@ -118,8 +118,26 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="delete-button-png-28580" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\delete-button-png-28580.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rename_icon_215315" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rename_icon_215315.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="plus_insert_add_rectangle_icon_176436" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\plus_insert_add_rectangle_icon_176436.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="-create-new-folder_90671" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\-create-new-folder_90671.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="edit-icon-png-3596" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\edit-icon-png-3596.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1485477204-share2_78604" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1485477204-share2_78604.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="4115230-cancel-close-cross-delete_114048" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\4115230-cancel-close-cross-delete_114048.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="copy_icon_128895" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\copy_icon_128895.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="copy-icon-4774" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\copy-icon-4774.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -127,7 +145,10 @@
   <data name="directory-icon-png-12390" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\directory-icon-png-12390.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="edit-icon-png-3596" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\edit-icon-png-3596.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="delete-button-png-28580" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\delete-button-png-28580.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="3643772-archive-archives-document-folder-open_113445 (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\3643772-archive-archives-document-folder-open_113445 (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
