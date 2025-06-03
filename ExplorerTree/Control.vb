@@ -3,9 +3,7 @@
 Public Class ExplorerTree
 
     ' TODO:
-    ' New Files and Folder: Icons!
     ' Paste File AND Folders
-    ' Check all
 
     Public Event SelectedPathChanged(Path As String)
     Public Event DoubleClicked(FileName As String)
