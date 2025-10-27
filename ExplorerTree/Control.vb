@@ -136,16 +136,6 @@ Public Class ExplorerTree
                 Exit For
             End If
         Next
-        'If Directory.Exists(folderpath) Then
-        '    Dim FolderName As String = New DirectoryInfo(folderpath).Name
-        '    Dim rootNode As New TreeNode(FolderName)
-        '    With rootNode
-        '        .Tag = folderpath
-        '        .ImageKey = folderpath
-        '        .SelectedImageKey = folderpath
-        '    End With
-        '    TreeView.Nodes.Remove(rootNode)
-        'End If
     End Sub
 
     Private Sub AddChildNodes(tn As TreeNode, DirPath As String)
